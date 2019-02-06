@@ -7,22 +7,18 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-    if (request.getMethod().equalsIgnoreCase("post")){
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
-        if (username.equals("admin")&&password.equals("password")){
-            response.sendRedirect("/profile.jsp");
-        }
-    }
+
 %>
 
 <html>
 <head>
     <title>Title</title>
+    <%@ include file="../WEB-INF/partials/head.jsp" %>
+    <link rel="stylesheet" href="../CSS/stylesheet.css">
 </head>
 <body>
-    <h1>Test</h1>
-    <form action="login.jsp" method="post">
+    <h1>CSS Test</h1>
+    <form action="/login" method="post">
         Username
         <br>
         <input type="text" name="username" id="username">
@@ -32,5 +28,6 @@
         <input type="password" name="password" id="password">
         <button type="submit">Login</button>
     </form>
+    <%@include file="../WEB-INF/partials/footer.jsp"%>
 </body>
 </html>
