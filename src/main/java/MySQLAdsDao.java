@@ -5,13 +5,23 @@ import java.util.List;
 import com.mysql.cj.jdbc.Driver;
 
 public class MySQLAdsDao implements Ads {
+    private Connection connection;
+
+    public MySQLAdsDao(Config config) {
+        try {
+            DriverManager.registerDriver(new Driver());
+            connection = DriverManager.getConnection(
+                    config.getUrl(),
+                    config.getUser(),
+                    config.getPassword()
+            );
+        } catch (SQLException e) {
+            throw new RuntimeException("Error connecting to the database!", e);
+        }
+    }
+
     public List<Ad> all() throws SQLException {
         List<Ad> ads = new ArrayList<>();
-        DriverManager.registerDriver(new Driver());
-        Config config = new Config();
-        Connection connection = DriverManager.getConnection(
-                config.getUrl(), config.getUser(), config.getPassword()
-        );
         Statement stmt = connection.createStatement();
         ResultSet rs = stmt.executeQuery("SELECT * FROM ads");
         while (rs.next()) {
@@ -24,11 +34,6 @@ public class MySQLAdsDao implements Ads {
 
     @Override
     public Long insert(Ad ad) throws SQLException {
-        DriverManager.registerDriver(new Driver());
-        Config config = new Config();
-        Connection connection = DriverManager.getConnection(
-                config.getUrl(), config.getUser(), config.getPassword()
-        );
         Statement stmt = connection.createStatement();
         stmt.executeUpdate(createInsertQuery(ad), Statement.RETURN_GENERATED_KEYS);
         ResultSet rs = stmt.getGeneratedKeys();
