@@ -49,11 +49,12 @@ public class MySQLUsersDao implements Users
         try {
             user.setId(rs.getLong(1));
             user.setUsername(rs.getString(2));
-            user.setEmail(rs.getString(3));
-            user.setPassword(rs.getString(4));
+            user.setPassword(rs.getString(3));
+            user.setEmail(rs.getString(4));
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return user;
     }
+//
 }
